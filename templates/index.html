@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image & Video Upscaler</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <h1 class="display-4">AI Image & Video Upscaler</h1>
+            <p class="lead">Enhance your images and videos with advanced AI technology</p>
+        </header>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card bg-dark-subtle">
+                    <div class="card-body">
+                        <form id="uploadForm" class="mb-4">
+                            <div class="mb-3">
+                                <label for="imageFile" class="form-label">Select File</label>
+                                <input type="file" class="form-control" id="imageFile" name="file" 
+                                       accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.tif,.tiff,.heic,.mp4,.webm,.mkv,.flv,.m4v,.avi,.mov,.qt,.3gp,.mpg,.mpeg">
+                            </div>
+                            <div class="mb-3">
+                                <label for="scaleRange" class="form-label">Input Scale: <span id="scaleValue">100</span>%</label>
+                                <input type="range" class="form-range" id="scaleRange" min="25" max="100" value="100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="interpolationRange" class="form-label">Interpolation: <span id="interpolationValue">0</span>%</label>
+                                <input type="range" class="form-range" id="interpolationRange" min="0" max="70" value="0">
+                                <small class="text-muted">Higher values preserve more of the original image</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="aiModel" class="form-label">AI Model</label>
+                                <select class="form-select" id="aiModel">
+                                    <option value="RealESRGANx4">RealESRGANx4 (Recommended)</option>
+                                    <option value="BSRGANx4">BSRGANx4</option>
+                                    <option value="BSRGANx2">BSRGANx2</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Upscale File</button>
+                        </form>
+
+                        <div id="progressArea" class="d-none">
+                            <div class="progress mb-3">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <p class="text-center" id="statusText">Processing file...</p>
+                        </div>
+
+                        <div id="resultArea" class="d-none">
+                            <h5 class="card-title mb-3">Result</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Original</h6>
+                                    <div id="originalContainer">
+                                        <img id="originalImage" class="img-fluid mb-3 rounded" src="" alt="Original file">
+                                        <video id="originalVideo" class="img-fluid mb-3 rounded d-none" controls></video>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Upscaled</h6>
+                                    <div id="upscaledContainer">
+                                        <img id="upscaledImage" class="img-fluid mb-3 rounded" src="" alt="Upscaled file">
+                                        <video id="upscaledVideo" class="img-fluid mb-3 rounded d-none" controls></video>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="downloadBtn" class="btn btn-success w-100">Download Upscaled File</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
